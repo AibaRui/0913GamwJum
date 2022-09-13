@@ -23,12 +23,12 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if (gameObject.tag == "Player")
+        if (gameObject.tag == "Player1")
         {
             Debug.Log("Player_One");
             MovePlayer_One();
         }
-        if (gameObject.tag == "PlayerTwo")
+        if (gameObject.tag == "Player2")
         {
             Debug.Log("Player_Two");
             MovePlayer_Two();
