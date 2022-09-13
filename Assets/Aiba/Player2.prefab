@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _speed2: 0
   verticalInput: 0
   horizontalInput: 0
   _clip: {fileID: 8300000, guid: 6adb7811cceaf3443abe6d92d4120a04, type: 3}
@@ -112,7 +113,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 277797ee69d2f5348927422f7929c6d5, type: 3}
   m_Color: {r: 0, g: 0.042280674, b: 1, a: 1}
   m_FlipX: 0
