@@ -70,12 +70,20 @@ public class Player : MonoBehaviour
         horizontalInput = 0;
         verticalInput = 0;
     }
-    public void AddSpeed1(int _addSpeed)
+    public void AddSpeed1(int _spd)
     {
-
+        _speed += _spd;
+        StartCoroutine(RemoveSpeed(_spd));
     }
-    public void AddSpeed2(int _addSpeed)
+    public void AddSpeed2(int _spd)
     {
+        _speed += _spd;
+        StartCoroutine(RemoveSpeed(_spd));
+    }
 
+    IEnumerator RemoveSpeed(int _spd)
+    {
+        yield return new WaitForSeconds(1);
+        _speed -= _spd;
     }
 }
