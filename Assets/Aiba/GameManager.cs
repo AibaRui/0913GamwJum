@@ -41,8 +41,12 @@ public class GameManager : MonoBehaviour
     [Header("引き分けパネル")]
     [Tooltip("引き分けパネル")] [SerializeField] GameObject _DrawPanel;
 
+
+    [SerializeField] AudioSource _gameAudio;
+    [SerializeField] AudioSource _endAudio;
+
     /// <summary>P1のスコア</summary>
-    int _player1Score = 0;
+    int _player1Score = 2;
     /// <summary>P2のスコア</summary>
     int _player2Score = 0;
 
@@ -50,6 +54,8 @@ public class GameManager : MonoBehaviour
     bool _isGame = false;
     void Start()
     {
+        _gameAudio = gameObject.GetComponent<AudioSource>();
+        _endAudio = _endAudio.gameObject.GetComponent<AudioSource>();
         StartCoroutine(StartCount());
     }
 
@@ -65,6 +71,10 @@ public class GameManager : MonoBehaviour
             {
                 _isGame = false;
 
+
+                ///曲の変更
+                _gameAudio.Stop();
+                _endAudio.Play();
 
                 ///勝敗に応じたパネルを表示
 
@@ -117,7 +127,6 @@ public class GameManager : MonoBehaviour
         _isGame = true;
         yield return new WaitForSeconds(1);
         _startCountText.text = "";
-
 
         //プレイヤーを出す
         if (_player1 && _player1InstantiatePos && _player2 && _player2InstantiatePos) //nullチェック
