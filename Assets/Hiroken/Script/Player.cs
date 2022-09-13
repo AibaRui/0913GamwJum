@@ -9,8 +9,13 @@ public class Player : MonoBehaviour
     [Tooltip("‰¡‚ÌˆÚ“®‘¬“x")] public float horizontalInput;
     Rigidbody2D _rb;
 
+    AudioSource _as;
+    AudioClip _clip;
+
     private void Start()
     {
+        _as = GetComponent<AudioSource>();
+        _clip = GetComponent<AudioClip>();
         _rb = GetComponent<Rigidbody2D>();
         horizontalInput = _speed * 1;
         verticalInput = _speed * 0;
@@ -162,11 +167,13 @@ public class Player : MonoBehaviour
     }
     public void AddSpeed1(int _spd)
     {
+        _as.PlayOneShot(_clip);
         _speed += _spd;
         StartCoroutine(RemoveSpeed(_spd));
     }
     public void AddSpeed2(int _spd)
     {
+        _as.PlayOneShot(_clip);
         _speed += _spd;
         StartCoroutine(RemoveSpeed(_spd));
     }
