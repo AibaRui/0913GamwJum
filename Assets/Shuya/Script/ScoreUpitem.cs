@@ -7,11 +7,11 @@ public class ScoreUpitem : ItemBase
     [SerializeField] int _addscore = 1;
     public override void Activate1()
     {
-        FindObjectOfType<GameManager>().Addscore(1, 1);
+        FindObjectOfType<GameManager>().AddScore(1, 1);
     }
 
     public override void Activate2()
     {
-        FindObjectOfType<GameManager>().Addscore(2, 1);
+        FindObjectOfType<GameManager>().AddScore(2, 1);
     }
 }
