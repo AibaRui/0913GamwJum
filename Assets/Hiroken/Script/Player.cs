@@ -5,12 +5,13 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [Tooltip("基本の移動速度")] public float _speed;
+    [Tooltip("基本の移動速度2")] public float _speed2;
     [Tooltip("縦の移動速度")] public float verticalInput;
     [Tooltip("横の移動速度")] public float horizontalInput;
     Rigidbody2D _rb;
 
     AudioSource _as;
-    AudioClip _clip;
+    [SerializeField] AudioClip _clip;
 
     private void Start()
     {
@@ -24,12 +25,10 @@ public class Player : MonoBehaviour
     {
         if (gameObject.tag == "Player1")
         {
-            Debug.Log("Player_One");
             MovePlayer_One();
         }
         if (gameObject.tag == "Player2")
         {
-            Debug.Log("Player_Two");
             MovePlayer_Two();
         }
     }
@@ -162,25 +161,23 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        horizontalInput = 0;
-        verticalInput = 0;
+        //horizontalInput = 0;
+        //verticalInput = 0;
     }
     public void AddSpeed1(int _spd)
     {
-        _as.PlayOneShot(_clip);
         _speed += _spd;
         StartCoroutine(RemoveSpeed(_spd));
     }
     public void AddSpeed2(int _spd)
     {
-        _as.PlayOneShot(_clip);
         _speed += _spd;
         StartCoroutine(RemoveSpeed(_spd));
     }
 
     IEnumerator RemoveSpeed(int _spd)
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(5);
         _speed -= _spd;
     }
 }

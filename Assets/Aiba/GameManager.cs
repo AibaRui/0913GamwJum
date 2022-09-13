@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     [Tooltip("リザルト画面のBGM")] [SerializeField] GameObject _endAudio;
 
     /// <summary>P1のスコア</summary>
-    int _player1Score = 2;
+    int _player1Score = 0;
     /// <summary>P2のスコア</summary>
     int _player2Score = 0;
 

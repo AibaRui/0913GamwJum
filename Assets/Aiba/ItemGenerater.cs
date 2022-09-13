@@ -8,13 +8,13 @@ public class ItemGenerater : MonoBehaviour
     [Tooltip("アイテム")] [SerializeField] GameObject _Item;
 
     [Header("生成間隔")]
-    [Tooltip("生成間隔")] float _time = 5;
+    [Tooltip("生成間隔")] [SerializeField] float _time = 5;
 
     [Header("アイテム出現の場所")]
     [Tooltip("アイテム出現の場所")] [SerializeField] GameObject[] _pos = new GameObject[6];
 
     [Header("1回数に出すアイテム数")]
-    [Tooltip("1回数に出すアイテム数")] int _itemNum;
+    [Tooltip("1回数に出すアイテム数")] [SerializeField] int _itemNum;
 
 
     [Header("Trueだったら特殊アイテム。Falseだったらスコアアイテム")]
@@ -52,7 +52,7 @@ public class ItemGenerater : MonoBehaviour
     }
 
     void Instasiate()
-    {
+    {  
         if (!_isSpecial)
         {
             var r = Random.Range(0, _pos.Length);
@@ -60,6 +60,7 @@ public class ItemGenerater : MonoBehaviour
 
             for (int i = 0; i < _itemNum; i++)
             {
+
                 if (_pos[r + i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
                 {
                     if (r + i > _pos.Length)//要素を超えないように

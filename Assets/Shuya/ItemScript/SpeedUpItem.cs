@@ -8,9 +8,11 @@ public class SpeedUpItem : ItemBase
     public override void Activate1()
     {
         FindObjectOfType<Player>().AddSpeed1(_addSpeed);
+
     }
     public override void Activate2()
     {
         FindObjectOfType<Player>().AddSpeed2(_addSpeed);
+
     }
 }
