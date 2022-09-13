@@ -32,22 +32,22 @@ public class Player : MonoBehaviour
         //float horizontalInput = _speed * Input.GetAxisRaw("Horizontal");
         //_rb.velocity = new Vector2(horizontalInput, verticalInput);
 
-        if (Input.GetButtonDown(_up))
-        {
-            verticalInput = _speed;
-        }
-        else if (Input.GetButtonDown(_down))
-        {
-            verticalInput = -_speed;
-        }
-        else if (Input.GetButtonDown(_left))
-        {
-            horizontalInput = _speed;
-        }
-        else if (Input.GetButtonDown(_right))
-        {
-            horizontalInput = -_speed;
-        }
+        //if (Input.GetButtonDown(_up))
+        //{
+        //    verticalInput = _speed;
+        //}
+        //else if (Input.GetButtonDown(_down))
+        //{
+        //    verticalInput = -_speed;
+        //}
+        //else if (Input.GetButtonDown(_left))
+        //{
+        //    horizontalInput = _speed;
+        //}
+        //else if (Input.GetButtonDown(_right))
+        //{
+        //    horizontalInput = -_speed;
+        //}
         _rb.velocity = new Vector2(horizontalInput, verticalInput);
     }
 
