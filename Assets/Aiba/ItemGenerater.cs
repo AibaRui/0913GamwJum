@@ -48,11 +48,10 @@ public class ItemGenerater : MonoBehaviour
     {
         yield return new WaitForSeconds(_time);
         _isIns = true;
-        _sp = true;
     }
 
     void Instasiate()
-    {  
+    {
         if (!_isSpecial)
         {
             var r = Random.Range(0, _pos.Length);
@@ -60,44 +59,51 @@ public class ItemGenerater : MonoBehaviour
 
             for (int i = 0; i < _itemNum; i++)
             {
-
-                if (_pos[r + i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
+                if (r + i > _pos.Length)
                 {
-                    if (r + i > _pos.Length)//要素を超えないように
+                    if (_pos[r + i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
                     {
-                        break;
+                        if (r + i > _pos.Length)//要素を超えないように
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            var go = Instantiate(_Item);
+                            go.transform.position = _pos[r + i].transform.position;
+                            go.transform.SetParent(_pos[r + i].transform);
+                        }
                     }
                     else
                     {
-                        var go = Instantiate(_Item);
-                        go.transform.position = _pos[r + i].transform.position;
+                        break;
                     }
-                }
-                else
-                {
-                    break;
                 }
             }
             StartCoroutine(Count());
         }
-        else if (_sp)
+        else if (_isSpecial)
         {
-            _sp = false;
-            while (true)
+            Debug.Log("aa");
+            for (int i = 0; i < 10; i++)
             {
+                Debug.Log("vv");
                 var r = Random.Range(0, _pos.Length);
                 if (_pos[r].transform.childCount == 0)
                 {
-                    Instantiate(_Item);
-                    break;
+                    var go = Instantiate(_Item);
+                    go.transform.position = _pos[r].transform.position;
+                    go.transform.SetParent(_pos[r].transform);
+                    return;
+                }
 
-                }
-                else
-                {
-                    continue;
-                }
+
+
             }
             StartCoroutine(Count());
+
+
+
         }
         else
         {
