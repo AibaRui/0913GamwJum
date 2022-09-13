@@ -5,10 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] float _speed;
-    [SerializeField] string _up;
-    [SerializeField] string _down;
-    [SerializeField] string _left;
-    [SerializeField] string _right;
+    //[SerializeField] string _up;
+    //[SerializeField] string _down;
+    //[SerializeField] string _left;
+    //[SerializeField] string _right;
     Rigidbody2D _rb;
     [Tooltip("c‚ÌˆÚ“®‘¬“x")] public float verticalInput;
     [Tooltip("‰¡‚ÌˆÚ“®‘¬“x")] public float horizontalInput;
@@ -32,21 +32,35 @@ public class Player : MonoBehaviour
         //float horizontalInput = _speed * Input.GetAxisRaw("Horizontal");
         //_rb.velocity = new Vector2(horizontalInput, verticalInput);
 
-        if (Input.GetButtonDown(_up))
+        if (Input.GetButtonDown("Vertical")) //W,S
         {
-            verticalInput = _speed;
+            float vertical = Input.GetAxis("Vertical");
+
+            if (vertical > 0) //W
+            {
+                verticalInput = _speed;
+                horizontalInput = 0;
+            }
+            else if (vertical < 0) //S
+            {
+                verticalInput = -_speed;
+                horizontalInput = 0;
+            }
         }
-        else if (Input.GetButtonDown(_down))
+        else if (Input.GetButtonDown("Horizontal")) //A,D
         {
-            verticalInput = -_speed;
-        }
-        else if (Input.GetButtonDown(_left))
-        {
-            horizontalInput = _speed;
-        }
-        else if (Input.GetButtonDown(_right))
-        {
-            horizontalInput = -_speed;
+            float horizontal = Input.GetAxis("Horizontal");
+
+            if (horizontal > 0) //A
+            {
+                verticalInput = 0;
+                horizontalInput = _speed;
+            }
+            else if (horizontal < 0) //D
+            {
+                verticalInput = 0;
+                horizontalInput = -_speed;
+            }
         }
         _rb.velocity = new Vector2(horizontalInput, verticalInput);
     }
