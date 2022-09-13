@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     int _player2Score = 0;
 
     /// <summary>ƒQ[ƒ€’†‚©‚Ç‚¤‚©‚Ì”»’f</summary>
-    bool _isGame = false;
+   public bool _isGame = false;
 
     bool _one;
     void Start()
