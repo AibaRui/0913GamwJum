@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] float _speed;
-    //[SerializeField] string _up;
-    //[SerializeField] string _down;
-    //[SerializeField] string _left;
-    //[SerializeField] string _right;
-    Rigidbody2D _rb;
+    [Tooltip("基本の移動速度")] public float _speed;
     [Tooltip("縦の移動速度")] public float verticalInput;
     [Tooltip("横の移動速度")] public float horizontalInput;
-
-    int _index;
+    Rigidbody2D _rb;
 
     private void Start()
     {
@@ -40,9 +34,30 @@ public class Player : MonoBehaviour
     /// </summary>
     void MovePlayer_One()
     {
-        //float verticalInput = _speed * Input.GetAxisRaw("Vertical");
-        //float horizontalInput = _speed * Input.GetAxisRaw("Horizontal");
-        //_rb.velocity = new Vector2(horizontalInput, verticalInput);
+        if (horizontalInput == 0 && verticalInput != 0)
+        {
+            horizontalInput = 0;
+            if (verticalInput > 0)
+            {
+                verticalInput = _speed;
+            }
+            else if (verticalInput < 0)
+            {
+                verticalInput = -_speed;
+            }
+        }
+        else if (verticalInput == 0 && horizontalInput != 0)
+        {
+            verticalInput = 0;
+            if (horizontalInput > 0)
+            {
+                horizontalInput = _speed;
+            }
+            else if (horizontalInput < 0)
+            {
+                horizontalInput = -_speed;
+            }
+        }
 
         if (Input.GetButtonDown("Vertical")) //W,S
         {
@@ -82,6 +97,31 @@ public class Player : MonoBehaviour
     /// </summary>
     void MovePlayer_Two()
     {
+        if (horizontalInput == 0 && verticalInput != 0)
+        {
+            horizontalInput = 0;
+            if (verticalInput > 0)
+            {
+                verticalInput = _speed;
+            }
+            else if (verticalInput < 0)
+            {
+                verticalInput = -_speed;
+            }
+        }
+        else if (verticalInput == 0 && horizontalInput != 0)
+        {
+            verticalInput = 0;
+            if (horizontalInput > 0)
+            {
+                horizontalInput = _speed;
+            }
+            else if (horizontalInput < 0)
+            {
+                horizontalInput = -_speed;
+            }
+        }
+
         if (Input.GetButtonDown("Vertical2")) //上下
         {
             float vertical = Input.GetAxis("Vertical2");
