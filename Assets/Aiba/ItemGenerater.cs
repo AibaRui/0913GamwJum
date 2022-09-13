@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreGenerater : MonoBehaviour
+public class ItemGenerater : MonoBehaviour
 {
     [Header("アイテム")]
     [Tooltip("アイテム")] [SerializeField] GameObject _Item;
