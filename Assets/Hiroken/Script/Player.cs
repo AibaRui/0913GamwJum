@@ -56,10 +56,10 @@ public class Player : MonoBehaviour
         horizontalInput = 0;
         verticalInput = 0;
     }
-    void AddSpeed1()
+    public void AddSpeed1()
     {
     }
-    void AddSpeed2()
+    public void AddSpeed2()
     {
     }
 }
