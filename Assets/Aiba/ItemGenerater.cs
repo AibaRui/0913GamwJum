@@ -48,6 +48,7 @@ public class ItemGenerater : MonoBehaviour
     {
         yield return new WaitForSeconds(_time);
         _isIns = true;
+        Debug.Log("cor");
     }
 
     void Instasiate()
@@ -59,27 +60,18 @@ public class ItemGenerater : MonoBehaviour
 
             for (int i = 0; i < _itemNum; i++)
             {
+                Debug.Log("2");
                 if (r + i > _pos.Length)
                 {
                     if (_pos[r + i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
                     {
-                        if (r + i > _pos.Length)//要素を超えないように
-                        {
-                            break;
-                        }
-                        else
-                        {
                             var go = Instantiate(_Item);
                             go.transform.position = _pos[r + i].transform.position;
                             go.transform.SetParent(_pos[r + i].transform);
-                        }
-                    }
-                    else
-                    {
-                        break;
                     }
                 }
             }
+            Debug.Log("3");
             StartCoroutine(Count());
         }
         else if (_isSpecial)
@@ -104,10 +96,6 @@ public class ItemGenerater : MonoBehaviour
 
 
 
-        }
-        else
-        {
-            return;
         }
     }
 
