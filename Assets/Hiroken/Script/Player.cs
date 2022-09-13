@@ -43,11 +43,11 @@ public class Player : MonoBehaviour
             horizontalInput = 0;
             if (verticalInput > 0)
             {
-                verticalInput = _speed;
+                gameObject.GetComponent<Player>().verticalInput = _speed;
             }
             else if (verticalInput < 0)
             {
-                verticalInput = -_speed;
+                gameObject.GetComponent<Player>().verticalInput = -_speed;
             }
         }
         else if (verticalInput == 0 && horizontalInput != 0)
@@ -106,11 +106,11 @@ public class Player : MonoBehaviour
             horizontalInput = 0;
             if (verticalInput > 0)
             {
-                verticalInput = _speed;
+                gameObject.GetComponent<Player>().verticalInput = _speed;
             }
             else if (verticalInput < 0)
             {
-                verticalInput = -_speed;
+                gameObject.GetComponent<Player>().verticalInput = -_speed;
             }
         }
         else if (verticalInput == 0 && horizontalInput != 0)
@@ -166,12 +166,12 @@ public class Player : MonoBehaviour
     }
     public void AddSpeed1(int _spd)
     {
-        _speed += _spd;
+        gameObject.GetComponent<Player>()._speed += _spd;
         StartCoroutine(RemoveSpeed(_spd));
     }
     public void AddSpeed2(int _spd)
     {
-        _speed += _spd;
+        gameObject.GetComponent<Player>()._speed += _spd;
         StartCoroutine(RemoveSpeed(_spd));
     }
 
