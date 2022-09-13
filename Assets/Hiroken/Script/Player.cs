@@ -23,10 +23,22 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        Move();
+        if (gameObject.tag == "Player")
+        {
+            Debug.Log("Player_One");
+            MovePlayer_One();
+        }
+        if (gameObject.tag == "PlayerTwo")
+        {
+            Debug.Log("Player_Two");
+            MovePlayer_Two();
+        }
     }
 
-    void Move()
+    /// <summary>
+    /// Player1の移動処理(WASD)
+    /// </summary>
+    void MovePlayer_One()
     {
         //float verticalInput = _speed * Input.GetAxisRaw("Vertical");
         //float horizontalInput = _speed * Input.GetAxisRaw("Horizontal");
@@ -47,7 +59,7 @@ public class Player : MonoBehaviour
                 horizontalInput = 0;
             }
         }
-        else if (Input.GetButtonDown("Horizontal")) //A,D
+        if (Input.GetButtonDown("Horizontal")) //A,D
         {
             float horizontal = Input.GetAxis("Horizontal");
 
@@ -57,6 +69,44 @@ public class Player : MonoBehaviour
                 horizontalInput = _speed;
             }
             else if (horizontal < 0) //D
+            {
+                verticalInput = 0;
+                horizontalInput = -_speed;
+            }
+        }
+        _rb.velocity = new Vector2(horizontalInput, verticalInput);
+    }
+
+    /// <summary>
+    /// Player2の移動処理(矢印キー)
+    /// </summary>
+    void MovePlayer_Two()
+    {
+        if (Input.GetButtonDown("Vertical2")) //上下
+        {
+            float vertical = Input.GetAxis("Vertical2");
+
+            if (vertical > 0) //上
+            {
+                verticalInput = _speed;
+                horizontalInput = 0;
+            }
+            else if (vertical < 0) //下
+            {
+                verticalInput = -_speed;
+                horizontalInput = 0;
+            }
+        }
+        if (Input.GetButtonDown("Horizontal2")) //左右
+        {
+            float horizontal = Input.GetAxis("Horizontal2");
+
+            if (horizontal > 0) //左
+            {
+                verticalInput = 0;
+                horizontalInput = _speed;
+            }
+            else if (horizontal < 0) //右
             {
                 verticalInput = 0;
                 horizontalInput = -_speed;
