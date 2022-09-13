@@ -42,8 +42,10 @@ public class GameManager : MonoBehaviour
     [Tooltip("引き分けパネル")] [SerializeField] GameObject _DrawPanel;
 
 
-    [SerializeField] AudioSource _gameAudio;
-    [SerializeField] AudioSource _endAudio;
+    [Header("ゲーム中のBGM")]
+    [Tooltip("ゲーム中のBGM")] [SerializeField] GameObject _gameAudio;
+    [Header("リザルト画面のBGM")]
+    [Tooltip("リザルト画面のBGM")] [SerializeField] GameObject _endAudio;
 
     /// <summary>P1のスコア</summary>
     int _player1Score = 2;
@@ -52,10 +54,10 @@ public class GameManager : MonoBehaviour
 
     /// <summary>ゲーム中かどうかの判断</summary>
     bool _isGame = false;
+
+    bool _one;
     void Start()
     {
-        _gameAudio = gameObject.GetComponent<AudioSource>();
-        _endAudio = _endAudio.gameObject.GetComponent<AudioSource>();
         StartCoroutine(StartCount());
     }
 
@@ -67,14 +69,21 @@ public class GameManager : MonoBehaviour
             _timeCount -= Time.deltaTime;
             _timeCountText.text = _timeCount.ToString("F0");
 
-            if (_timeCount == 0)
+            if (_timeCount < 0)
             {
-                _isGame = false;
+  
 
 
                 ///曲の変更
-                _gameAudio.Stop();
-                _endAudio.Play();
+
+                if (!_one)
+                {
+                    _one = true;
+
+                    _gameAudio.SetActive(false);
+                    _endAudio.SetActive(true);
+                }
+
 
                 ///勝敗に応じたパネルを表示
 
@@ -90,7 +99,10 @@ public class GameManager : MonoBehaviour
                 {
                     _DrawPanel.SetActive(true);
                 }
+              _isGame = false;
             }
+
+
 
         }
     }
@@ -117,16 +129,14 @@ public class GameManager : MonoBehaviour
     /// <summary>ゲーム開始のカウントをするコルーチン</summary>
     IEnumerator StartCount()
     {
-        _startCountText.text = "3";
+        _startCountText.text = "  3";
         yield return new WaitForSeconds(1);
-        _startCountText.text = "2";
+        _startCountText.text = "  2";
         yield return new WaitForSeconds(1);
-        _startCountText.text = "1";
+        _startCountText.text = "  1";
         yield return new WaitForSeconds(1);
         _startCountText.text = "Start";
         _isGame = true;
-        yield return new WaitForSeconds(1);
-        _startCountText.text = "";
 
         //プレイヤーを出す
         if (_player1 && _player1InstantiatePos && _player2 && _player2InstantiatePos) //nullチェック
@@ -136,6 +146,9 @@ public class GameManager : MonoBehaviour
             var go2 = Instantiate(_player2);
             go2.transform.position = _player2InstantiatePos.position;
         }
+
+        yield return new WaitForSeconds(1);
+        _startCountText.text = "";
     }
 
 
