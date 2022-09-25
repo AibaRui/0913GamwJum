@@ -56,18 +56,25 @@ public class ItemGenerater : MonoBehaviour
         if (!_isSpecial)
         {
             var r = Random.Range(0, _pos.Length);
-            var num = Random.Range(1, 4);
-
+            var rm = Random.Range(0, _pos.Length / 2);
             for (int i = 0; i < _itemNum; i++)
             {
-                Debug.Log("2");
                 if (r + i > _pos.Length)
                 {
                     if (_pos[r + i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
                     {
-                            var go = Instantiate(_Item);
-                            go.transform.position = _pos[r + i].transform.position;
-                            go.transform.SetParent(_pos[r + i].transform);
+                        var go = Instantiate(_Item);
+                        go.transform.position = _pos[r + i].transform.position;
+                        go.transform.SetParent(_pos[r + i].transform);
+                    }
+                }
+                else
+                {
+                    if (_pos[rm + i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
+                    {
+                        var go = Instantiate(_Item);
+                        go.transform.position = _pos[r + i].transform.position;
+                        go.transform.SetParent(_pos[r + i].transform);
                     }
                 }
             }
