@@ -59,7 +59,7 @@ public class ItemGenerater : MonoBehaviour
             var rm = Random.Range(0, _pos.Length / 2);
             for (int i = 0; i < _itemNum; i++)
             {
-                if (r + i > _pos.Length)
+                if (r + i < _pos.Length)
                 {
                     if (_pos[r + i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
                     {
@@ -70,12 +70,12 @@ public class ItemGenerater : MonoBehaviour
                 }
                 else
                 {
-                    if (_pos[rm + i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
-                    {
-                        var go = Instantiate(_Item);
-                        go.transform.position = _pos[r + i].transform.position;
-                        go.transform.SetParent(_pos[r + i].transform);
-                    }
+                    //if (_pos[rm - i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
+                    //{
+                    //    var go = Instantiate(_Item);
+                    //    go.transform.position = _pos[r - i].transform.position;
+                    //    go.transform.SetParent(_pos[r - i].transform);
+                    //}
                 }
             }
             Debug.Log("3");
@@ -83,26 +83,19 @@ public class ItemGenerater : MonoBehaviour
         }
         else if (_isSpecial)
         {
-            Debug.Log("aa");
-            for (int i = 0; i < 10; i++)
+            Debug.Log("Specilal");
+            for (int i = 0; i < _pos.Length; i++)
             {
-                Debug.Log("vv");
                 var r = Random.Range(0, _pos.Length);
                 if (_pos[r].transform.childCount == 0)
                 {
                     var go = Instantiate(_Item);
                     go.transform.position = _pos[r].transform.position;
                     go.transform.SetParent(_pos[r].transform);
-                    return;
+                    break;
                 }
-
-
-
             }
             StartCoroutine(Count());
-
-
-
         }
     }
 

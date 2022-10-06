@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;  // DOTween を使うため
 public class GameManager : MonoBehaviour
 {
     [Header("ゲーム時間")]
@@ -11,14 +11,8 @@ public class GameManager : MonoBehaviour
     [Header("プレイヤー1のオブジェクト")]
     [Tooltip("プレイヤー1のオブジェクト")] [SerializeField] GameObject _player1;
 
-    [Header("プレイヤー1を出す場所")]
-    [Tooltip("プレイヤー1を出す場所")] [SerializeField] Transform _player1InstantiatePos;
-
     [Header("プレイヤー2のオブジェクト")]
     [Tooltip("プレイヤー2のオブジェクト")] [SerializeField] GameObject _player2;
-
-    [Header("プレイヤー2を出す場所")]
-    [Tooltip("プレイヤー2を出す場所")] [SerializeField] Transform _player2InstantiatePos;
 
     [Header("ゲーム開始カウント用のテキスト")]
     [Tooltip("ゲーム開始カウント用のテキスト")] [SerializeField] Text _startCountText;
@@ -47,13 +41,17 @@ public class GameManager : MonoBehaviour
     [Header("リザルト画面のBGM")]
     [Tooltip("リザルト画面のBGM")] [SerializeField] GameObject _endAudio;
 
+    [SerializeField] List<GameObject> _deleteGameObject = new List<GameObject>();
+
     /// <summary>P1のスコア</summary>
     int _player1Score = 0;
     /// <summary>P2のスコア</summary>
     int _player2Score = 0;
 
     /// <summary>ゲーム中かどうかの判断</summary>
-   public bool _isGame = false;
+    public bool _isGame = false;
+
+    public float _enemySpeed = 0.1f;
 
     bool _one;
     void Start()
@@ -71,7 +69,6 @@ public class GameManager : MonoBehaviour
 
             if (_timeCount < 0)
             {
-  
 
 
                 ///曲の変更
@@ -99,13 +96,29 @@ public class GameManager : MonoBehaviour
                 {
                     _DrawPanel.SetActive(true);
                 }
-              _isGame = false;
+                _isGame = false;
             }
+        }
+        SpeedUpEnemy();
+    }
 
-
-
+    void SpeedUpEnemy()
+    {
+        if (_timeCount <= 20)
+        {
+            _enemySpeed = 0.3f;
+        }
+        else if (_timeCount <= 40)
+        {
+            _enemySpeed = 0.2f;
+        }
+        else if (_timeCount <= 50)
+        {
+            _enemySpeed = 0.15f;
         }
     }
+
+
 
     /// <summary>スコア追加メソッド</summary>
     /// <param name="playerNumber">プレイヤー識別番号</param>
@@ -114,16 +127,54 @@ public class GameManager : MonoBehaviour
     {
         if (playerNumber == 1)
         {
+            int tempScore = _player1Score; // 追加前のスコア
+
             _player1Score += addScore;
+
+            if (_player1Score >= 0)
+            {
+                // DOTween.To() を使って連続的に変化させる
+                DOTween.To(() => tempScore, // 連続的に変化させる対象の値
+                    x => tempScore = x, // 変化させた値 x をどう処理するかを書く
+                    _player1Score, // x をどの値まで変化させるか指示する
+                    0.5f)   // 何秒かけて変化させるか指示する
+                    .OnUpdate(() => _scoreP1.text = tempScore.ToString())   // 数値が変化する度に実行する処理を書く
+                    .OnComplete(() => _scoreP1.text = _player1Score.ToString());   // 数値の変化が完了した時に実行する処理を書く
+            }
+            else
+            {
+                _player1Score = 0;
+            }
             _scoreP1.text = _player1Score.ToString();
         }
         else if (playerNumber == 2)
         {
+            int tempScore = _player2Score; // 追加前のスコア
+
+
             _player2Score += addScore;
+            if (_player2Score >= 0)
+            {
+                // DOTween.To() を使って連続的に変化させる
+                DOTween.To(() => tempScore, // 連続的に変化させる対象の値
+                    x => tempScore = x, // 変化させた値 x をどう処理するかを書く
+                    _player2Score, // x をどの値まで変化させるか指示する
+                    0.5f)   // 何秒かけて変化させるか指示する
+                    .OnUpdate(() => _scoreP2.text = tempScore.ToString())   // 数値が変化する度に実行する処理を書く
+                    .OnComplete(() => _scoreP2.text = _player2Score.ToString());   // 数値の変化が完了した時に実行する処理を書く
+            }
+            else
+            {
+                _player2Score = 0;
+            }
             _scoreP2.text = _player2Score.ToString();
         }
-    }
 
+
+
+
+
+    }
 
 
     /// <summary>ゲーム開始のカウントをするコルーチン</summary>
@@ -137,15 +188,14 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         _startCountText.text = "Start";
         _isGame = true;
+        _deleteGameObject.ForEach(i => Destroy(i));
 
-        //プレイヤーを出す
-        if (_player1 && _player1InstantiatePos && _player2 && _player2InstantiatePos) //nullチェック
-        {
-            var go1 = Instantiate(_player1);
-            go1.transform.position = _player1InstantiatePos.position;
-            var go2 = Instantiate(_player2);
-            go2.transform.position = _player2InstantiatePos.position;
-        }
+        ////プレイヤーを出す
+        //if (_player1 &&_player2) //nullチェック
+        //{
+        //    _player1.SetActive(true);
+        //    _player2.SetActive(true);
+        //}
 
         yield return new WaitForSeconds(1);
         _startCountText.text = "";
