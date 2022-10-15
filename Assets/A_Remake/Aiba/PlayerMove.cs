@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    [SerializeField] GameObject _kira;
     public float speed = 0.4f;
     Vector2 dest = Vector2.zero;
 
@@ -39,7 +40,6 @@ public class PlayerMove : MonoBehaviour
             // Check for Input if not moving
             if ((Vector2)transform.position == dest)
             {
-                Debug.Log("2");
                 if (Input.GetKey(KeyCode.W) && valid(Vector2.up))
                     dest = (Vector2)transform.position + Vector2.up;
                 if (Input.GetKey(KeyCode.D) && valid(Vector2.right))
@@ -88,6 +88,18 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         this.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, 10);
         yield return new WaitForSeconds(0.7f);
+        gameObject.layer = 10;
+    }
+
+    public IEnumerator mutekiItem()
+    {
+        Debug.Log("SS");
+        var a = Instantiate(_kira);
+        a.transform.position = transform.position;
+        a.transform.SetParent(transform);
+        gameObject.layer = 9;
+        yield return new WaitForSeconds(5f);
+        Destroy(a);
         gameObject.layer = 10;
     }
 }

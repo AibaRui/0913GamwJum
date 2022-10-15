@@ -6,7 +6,7 @@ using DG.Tweening;  // DOTween を使うため
 public class GameManager : MonoBehaviour
 {
     [Header("ゲーム時間")]
-    [Tooltip("ゲーム時間")] [SerializeField] float _timeCount;
+    [Tooltip("ゲーム時間")] [SerializeField]public float _timeCount;
 
     [Header("プレイヤー1のオブジェクト")]
     [Tooltip("プレイヤー1のオブジェクト")] [SerializeField] GameObject _player1;

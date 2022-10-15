@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player2 : MonoBehaviour
 {
+    [SerializeField] GameObject _kira;
+
     public float speed = 0.4f;
     Vector2 dest = Vector2.zero;
 
@@ -75,4 +77,14 @@ public class Player2 : MonoBehaviour
         gameObject.layer = 10;
     }
 
+    public IEnumerator mutekiItem()
+    {
+        var a = Instantiate(_kira);
+        a.transform.position = transform.position;
+        a.transform.SetParent(transform);
+        gameObject.layer = 9;
+        yield return new WaitForSeconds(5f);
+        Destroy(a);
+        gameObject.layer = 10;
+    }
 }

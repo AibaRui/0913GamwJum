@@ -1,17 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ItemGenerater : MonoBehaviour
 {
     [Header("アイテム")]
-    [Tooltip("アイテム")] [SerializeField] GameObject _Item;
+    [Tooltip("アイテム")] [SerializeField] GameObject[] _Item = new GameObject[2];
+
+    [Header("特殊アイテム")]
+    [Tooltip("特殊アイテム")] [SerializeField] GameObject[] _specialItem = new GameObject[2];
 
     [Header("生成間隔")]
     [Tooltip("生成間隔")] [SerializeField] float _time = 5;
 
     [Header("アイテム出現の場所")]
-    [Tooltip("アイテム出現の場所")] [SerializeField] GameObject[] _pos = new GameObject[6];
+    [Tooltip("アイテム出現の場所")] [SerializeField] List<GameObject> _pos = new List<GameObject>();
 
     [Header("1回数に出すアイテム数")]
     [Tooltip("1回数に出すアイテム数")] [SerializeField] int _itemNum;
@@ -55,27 +59,29 @@ public class ItemGenerater : MonoBehaviour
     {
         if (!_isSpecial)
         {
-            var r = Random.Range(0, _pos.Length);
-            var rm = Random.Range(0, _pos.Length / 2);
-            for (int i = 0; i < _itemNum; i++)
+            var rm = Random.Range(0, _pos.Count / 2);
+
+            var noItemZone = _pos.Where(i => i.transform.childCount == 0).ToList();
+            var r = Random.Range(0, noItemZone.Count);
+
+            if (noItemZone.Count >= _itemNum)
             {
-                if (r + i < _pos.Length)
+                for (int i = 0; i < _itemNum; i++)
                 {
-                    if (_pos[r + i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
+                    if (r + i < noItemZone.Count)
                     {
-                        var go = Instantiate(_Item);
-                        go.transform.position = _pos[r + i].transform.position;
-                        go.transform.SetParent(_pos[r + i].transform);
+                        if (noItemZone[r + i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
+                        {
+                            var itemR = Random.Range(1, _Item.Length);
+                            if (i>1)
+                            {
+                                itemR = 0;
+                            }
+                            var go = Instantiate(_Item[itemR]);
+                            go.transform.position = noItemZone[r + i].transform.position;
+                            go.transform.SetParent(noItemZone[r + i].transform);
+                        }
                     }
-                }
-                else
-                {
-                    //if (_pos[rm - i].gameObject.transform.childCount == 0) //その場にアイテムがなかったら
-                    //{
-                    //    var go = Instantiate(_Item);
-                    //    go.transform.position = _pos[r - i].transform.position;
-                    //    go.transform.SetParent(_pos[r - i].transform);
-                    //}
                 }
             }
             Debug.Log("3");
@@ -83,13 +89,15 @@ public class ItemGenerater : MonoBehaviour
         }
         else if (_isSpecial)
         {
+            var itemR = Random.Range(0, _Item.Length);
+
             Debug.Log("Specilal");
-            for (int i = 0; i < _pos.Length; i++)
+            for (int i = 0; i < _pos.Count; i++)
             {
-                var r = Random.Range(0, _pos.Length);
+                var r = Random.Range(0, _pos.Count);
                 if (_pos[r].transform.childCount == 0)
                 {
-                    var go = Instantiate(_Item);
+                    var go = Instantiate(_Item[itemR]);
                     go.transform.position = _pos[r].transform.position;
                     go.transform.SetParent(_pos[r].transform);
                     break;
