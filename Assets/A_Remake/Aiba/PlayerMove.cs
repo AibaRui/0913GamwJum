@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    [SerializeField] AudioSource _audioItm;
+    [SerializeField] AudioSource _audio;
+    [SerializeField] AudioClip _hitEnemy;
+    [SerializeField] AudioClip _getSP;
+    [SerializeField] AudioClip _getItem;
+
     [SerializeField] GameObject _kira;
     public float speed = 0.4f;
     Vector2 dest = Vector2.zero;
@@ -20,6 +26,8 @@ public class PlayerMove : MonoBehaviour
     bool a;
     void Start()
     {
+        _audioItm = _audioItm.GetComponent<AudioSource>();
+        _audio = GetComponent<AudioSource>();
         dest = transform.position;
         _gm = FindObjectOfType<GameManager>();
     }
@@ -52,11 +60,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-
-    }
-
     bool valid(Vector2 dir)
     {
         Debug.Log("v");
@@ -72,8 +75,14 @@ public class PlayerMove : MonoBehaviour
         Debug.Log("hit");
         if (collision.gameObject.tag == "Enemy")
         {
+            _audio.PlayOneShot(_hitEnemy);
             StartCoroutine(muteki());
             FindObjectOfType<GameManager>().AddScore(1, -5);
+        }
+
+        if (collision.gameObject.tag == "Item")
+        {
+            _audioItm.PlayOneShot(_getItem);
         }
     }
 
@@ -93,6 +102,7 @@ public class PlayerMove : MonoBehaviour
 
     public IEnumerator mutekiItem()
     {
+        _audio.PlayOneShot(_getSP);
         Debug.Log("SS");
         var a = Instantiate(_kira);
         a.transform.position = transform.position;

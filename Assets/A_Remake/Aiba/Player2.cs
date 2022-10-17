@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Player2 : MonoBehaviour
 {
+    [SerializeField] AudioSource _audio;
+    [SerializeField] AudioSource _audioItm;
+
+    [SerializeField] AudioClip _hitEnemy;
+    [SerializeField] AudioClip _getSP;
+    [SerializeField] AudioClip _getItem;
+
+
+
     [SerializeField] GameObject _kira;
 
     public float speed = 0.4f;
@@ -16,6 +25,8 @@ public class Player2 : MonoBehaviour
     [SerializeField] LayerMask _muteki;
     void Start()
     {
+        _audioItm = _audioItm.GetComponent<AudioSource>();
+        _audio = GetComponent<AudioSource>();
         _gm = FindObjectOfType<GameManager>();
     }
     private void Update()
@@ -58,8 +69,14 @@ public class Player2 : MonoBehaviour
     {
         if(collision.gameObject.tag=="Enemy")
         {
+            _audio.PlayOneShot(_hitEnemy);
             StartCoroutine(muteki());
             FindObjectOfType<GameManager>().AddScore(2, -5);
+        }
+
+        if(collision.gameObject.tag=="Item")
+        {
+           _audioItm.PlayOneShot(_getItem);
         }
     }
 
@@ -79,6 +96,7 @@ public class Player2 : MonoBehaviour
 
     public IEnumerator mutekiItem()
     {
+        _audio.PlayOneShot(_getSP);
         var a = Instantiate(_kira);
         a.transform.position = transform.position;
         a.transform.SetParent(transform);
